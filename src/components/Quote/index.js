@@ -36,12 +36,12 @@ const Author = styled.div`
 `;
 
 const Quote = ({ avatar, quote, author, ...props }) => {
-  const html = Emoji.emojify((new MarkdownIt()).render(quote));
+  const html = Emoji.emojify(new MarkdownIt().render(quote));
 
   return (
     <Card {...props}>
       <Avatar>
-        <AvatarImage src={avatar} alt='' />
+        <AvatarImage src={avatar} alt="" />
       </Avatar>
       <Content>
         <div dangerouslySetInnerHTML={{ __html: html }} />

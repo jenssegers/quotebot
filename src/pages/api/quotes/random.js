@@ -12,21 +12,21 @@ export default async (req, res) => {
   }
 
   res.status(200).json({
-    'response_type': 'in_channel',
-    'attachments': [
+    response_type: 'in_channel',
+    attachments: [
       {
-        'fallback':
+        fallback:
           `> ${quote.quote} \n` +
           `> * ${quote.author} * \n` +
           'https://quotebot.jenssegers.com',
-        'author_name': quote.author,
-        'thumb_url': quote.avatar,
-        'text': quote.quote,
-        'actions': [
+        author_name: quote.author,
+        thumb_url: quote.avatar,
+        text: quote.quote,
+        actions: [
           {
-            'type': 'button',
-            'text': 'View all quotes',
-            'url': 'https://quotebot.jenssegers.com',
+            type: 'button',
+            text: 'View all quotes',
+            url: 'https://quotebot.jenssegers.com',
           },
         ],
       },

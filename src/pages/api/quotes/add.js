@@ -1,13 +1,13 @@
-import repository from '../../../domain/quotes/repository';
 import uuid from 'uuid/v4';
 import { WebClient } from '@slack/web-api';
+import repository from '../../../domain/quotes/repository';
 
 export default async (req, res) => {
   const parsed = /^<@([\w]+)\|[\w]+>\s*(.+)/gi.exec(req.body.text);
 
   if (!parsed) {
     res.status(200).json({
-      'text': 'Usage: /quote *@username* quote',
+      text: 'Usage: /quote *@username* quote',
     });
 
     return;
@@ -23,27 +23,28 @@ export default async (req, res) => {
     author: profile.user.profile.real_name,
     authorId,
     quote: text,
-    avatar: profile.user.profile.image_512 || profile.user.profile.image_original
+    avatar:
+      profile.user.profile.image_512 || profile.user.profile.image_original,
   };
 
   await repository.add(quote);
 
   res.status(200).json({
-    'response_type': 'in_channel',
-    'attachments': [
+    response_type: 'in_channel',
+    attachments: [
       {
-        'fallback':
+        fallback:
           `> ${quote.quote} \n` +
           `> * ${quote.author} * \n` +
           'https://quotebot.jenssegers.com',
-        'author_name': quote.author,
-        'thumb_url': quote.avatar,
-        'text': quote.quote,
-        'actions': [
+        author_name: quote.author,
+        thumb_url: quote.avatar,
+        text: quote.quote,
+        actions: [
           {
-            'type': 'button',
-            'text': 'View all quotes',
-            'url': 'https://quotebot.jenssegers.com',
+            type: 'button',
+            text: 'View all quotes',
+            url: 'https://quotebot.jenssegers.com',
           },
         ],
       },

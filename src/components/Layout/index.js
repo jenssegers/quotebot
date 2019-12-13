@@ -8,33 +8,35 @@ const Layout = ({ children, ...props }) => (
       <meta charSet="utf-8" />
     </Head>
 
-    <style jsx global>{`
-      * {
-        box-sizing: border-box;
-      }
+    <style jsx global>
+      {`
+        * {
+          box-sizing: border-box;
+        }
 
-      html,
-      body,
-      #__next {
-        height: 100%;
-        width: 100%;
-      }
+        html,
+        body,
+        #__next {
+          height: 100%;
+          width: 100%;
+        }
 
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-          "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-          "Helvetica Neue", sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        background-color: #F2F2F8;
-      }
-      
-      p {
-        margin: 0;
-      }
-    `}</style>
+        body {
+          margin: 0;
+          padding: 0;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+            'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+            'Helvetica Neue', sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          background-color: #f2f2f8;
+        }
+
+        p {
+          margin: 0;
+        }
+      `}
+    </style>
 
     {children}
   </div>

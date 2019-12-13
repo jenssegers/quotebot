@@ -1,8 +1,8 @@
 import fetch from 'isomorphic-unfetch';
+import styled from 'styled-components';
 import Quote from '../components/Quote';
 import Layout from '../components/Layout';
 import { withAuthentication } from '../authentication';
-import styled from 'styled-components';
 
 const Grid = styled.div`
   display: flex;
@@ -20,20 +20,24 @@ const Item = styled.div`
 `;
 
 function Page({ quotes }) {
-  return <Layout>
-    <Grid>
-      {quotes.map(quote => <Item>
-        <Quote key={quote.id} {...quote} />
-      </Item>)}
-    </Grid>
-  </Layout>
+  return (
+    <Layout>
+      <Grid>
+        {quotes.map(quote => (
+          <Item>
+            <Quote key={quote.id} {...quote} />
+          </Item>
+        ))}
+      </Grid>
+    </Layout>
+  );
 }
 
 Page.getInitialProps = async ({ req }) => {
   const baseUrl = req ? `http://${req.headers.host}` : '';
-  const response = await fetch(baseUrl + '/api/quotes');
+  const response = await fetch(`${baseUrl}/api/quotes`);
   const json = await response.json();
-  return { quotes: json.data }
+  return { quotes: json.data };
 };
 
 export default withAuthentication(Page);
