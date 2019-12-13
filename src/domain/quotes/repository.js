@@ -2,7 +2,7 @@ import mysql from '../../infrastructure/mysql';
 
 class QuotesRepository {
   async findAll() {
-    const connection = await mysql.createConnection();
+    const connection = await mysql.getConnection();
 
     const [rows, fields] = await connection.query(
       'SELECT quotes.id, quotes.quote, COALESCE(authors.name, quotes.author) as author, COALESCE(authors.avatar, quotes.avatar) as avatar ' +
@@ -15,7 +15,7 @@ class QuotesRepository {
   }
 
   async random(authorId) {
-    const connection = await mysql.createConnection();
+    const connection = await mysql.getConnection();
     let results;
 
     if (authorId) {
@@ -42,7 +42,7 @@ class QuotesRepository {
   }
 
   async add(quote) {
-    const connection = await mysql.createConnection();
+    const connection = await mysql.getConnection();
 
     await connection.execute(
       'INSERT INTO quotes ' +
