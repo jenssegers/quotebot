@@ -14,17 +14,29 @@ class QuotesRepository {
     return rows;
   }
 
-  async random() {
+  async random(authorId) {
     const connection = await mysql.createConnection();
+    let results;
 
-    const [rows, fields] = await connection.query(
-      'SELECT quotes.id, quotes.quote, COALESCE(authors.name, quotes.author) as author, COALESCE(authors.avatar, quotes.avatar) as avatar ' +
-      'FROM quotes ' +
-      'LEFT JOIN authors ON authors.id = quotes.author_id ' +
-      'ORDER BY RAND() LIMIT 1'
-    );
+    if (authorId) {
+      [results] = await connection.query(
+        'SELECT quotes.id, quotes.quote, COALESCE(authors.name, quotes.author) as author, COALESCE(authors.avatar, quotes.avatar) as avatar ' +
+        'FROM quotes ' +
+        'LEFT JOIN authors ON authors.id = quotes.author_id ' +
+        'WHERE quotes.author_id = ? ' +
+        'ORDER BY RAND() LIMIT 1',
+        [authorId]
+      );
+    } else {
+      [results] = await connection.query(
+        'SELECT quotes.id, quotes.quote, COALESCE(authors.name, quotes.author) as author, COALESCE(authors.avatar, quotes.avatar) as avatar ' +
+        'FROM quotes ' +
+        'LEFT JOIN authors ON authors.id = quotes.author_id ' +
+        'ORDER BY RAND() LIMIT 1'
+      );
+    }
 
-    return rows[0];
+    return results[0];
   }
 
   async add(quote) {

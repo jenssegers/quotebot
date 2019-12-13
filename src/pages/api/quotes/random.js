@@ -1,7 +1,15 @@
 import repository from '../../../domain/quotes/repository';
 
 export default async (req, res) => {
-  const quote = await repository.random();
+  const parsed = /^<@([\w]+)\|[\w]+>.*/gi.exec(req.body.text);
+  let quote;
+
+  if (parsed) {
+    const [full, authorId] = parsed;
+    quote = await repository.random(authorId);
+  } else {
+    quote = await repository.random();
+  }
 
   res.status(200).json({
     'response_type': 'in_channel',
