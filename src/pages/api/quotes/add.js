@@ -37,7 +37,7 @@ export default morgan('common')(async (req, res) => {
         fallback:
           `> ${quote.quote} \n` +
           `> * ${quote.author} * \n` +
-          'https://quotebot.jenssegers.com',
+          `https://${req.headers.host}`,
         author_name: quote.author,
         thumb_url: quote.avatar,
         text: quote.quote,
@@ -45,7 +45,7 @@ export default morgan('common')(async (req, res) => {
           {
             type: 'button',
             text: 'View all quotes',
-            url: 'https://quotebot.jenssegers.com',
+            url: `https://${req.headers.host}`,
           },
         ],
       },
