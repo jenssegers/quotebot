@@ -1,9 +1,10 @@
-import repository from '../../../domain/quotes/repository';
+import QuotesRepository from '../../../domain/quotes/QuotesRepository';
+import morgan from 'micro-morgan';
 
-export default async (req, res) => {
-  const quotes = await repository.findAll();
+export default morgan('common')(async (req, res) => {
+  const quotes = await QuotesRepository.findAll();
 
   res.status(200).json({
     data: quotes,
   });
-};
+});

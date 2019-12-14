@@ -1,14 +1,15 @@
-import repository from '../../../domain/quotes/repository';
+import QuotesRepository from '../../../domain/quotes/QuotesRepository';
+import morgan from 'micro-morgan';
 
-export default async (req, res) => {
+export default morgan('common')(async (req, res) => {
   const parsed = /^<@([\w]+)\|[\w]+>.*/gi.exec(req.body.text);
   let quote;
 
   if (parsed) {
     const [full, authorId] = parsed;
-    quote = await repository.random(authorId);
+    quote = await QuotesRepository.random(authorId);
   } else {
-    quote = await repository.random();
+    quote = await QuotesRepository.random();
   }
 
   res.status(200).json({
@@ -32,4 +33,4 @@ export default async (req, res) => {
       },
     ],
   });
-};
+});

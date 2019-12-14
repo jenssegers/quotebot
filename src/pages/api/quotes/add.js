@@ -1,8 +1,9 @@
 import uuid from 'uuid/v4';
 import { WebClient } from '@slack/web-api';
-import repository from '../../../domain/quotes/repository';
+import QuotesRepository from '../../../domain/quotes/QuotesRepository';
+import morgan from 'micro-morgan';
 
-export default async (req, res) => {
+export default morgan('common')(async (req, res) => {
   const parsed = /^<@([\w]+)\|[\w]+>\s*(.+)/gi.exec(req.body.text);
 
   if (!parsed) {
@@ -27,7 +28,7 @@ export default async (req, res) => {
       profile.user.profile.image_512 || profile.user.profile.image_original,
   };
 
-  await repository.add(quote);
+  await QuotesRepository.add(quote);
 
   res.status(200).json({
     response_type: 'in_channel',
@@ -50,4 +51,4 @@ export default async (req, res) => {
       },
     ],
   });
-};
+});
