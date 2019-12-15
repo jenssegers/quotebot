@@ -1,6 +1,7 @@
 import Emoji from 'node-emoji';
 import MarkdownIt from 'markdown-it';
 import styled from 'styled-components';
+import React from 'react';
 
 const Card = styled.div`
   background-color: #ffffff;
