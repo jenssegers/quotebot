@@ -2,8 +2,12 @@ import uuid from 'uuid/v4';
 import { WebClient } from '@slack/web-api';
 import QuotesRepository from '../../../domain/quotes/QuotesRepository';
 import morgan from 'micro-morgan';
+import { IncomingMessage, ServerResponse } from 'http';
+import { Quote } from '../../../domain/quotes/Quote';
 
-export default morgan('common')(async (req, res) => {
+export default morgan('common')(async (req: IncomingMessage, res: ServerResponse) => {
+  console.log(req);
+
   const parsed = /^<@([\w]+)\|.+>\s*(.+)/gi.exec(req.body.text);
 
   if (!parsed) {
@@ -18,15 +22,14 @@ export default morgan('common')(async (req, res) => {
   const slack = new WebClient(process.env.SLACK_TOKEN);
   const profile = await slack.users.info({ user: authorId });
 
-  const quote = {
-    id: uuid(),
-    channel: req.body.channel_name,
-    author: profile.user.profile.real_name,
+  const quote = new Quote(
+    uuid(),
+    text,
+    profile.user.profile.real_name,
     authorId,
-    quote: text,
-    avatar:
-      profile.user.profile.image_512 || profile.user.profile.image_original,
-  };
+    profile.user.profile.image_512 || profile.user.profile.image_original,
+    req.body.channel_name
+  );
 
   await QuotesRepository.add(quote);
 
