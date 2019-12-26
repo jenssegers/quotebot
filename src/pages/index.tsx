@@ -2,8 +2,8 @@ import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import Quote from '../components/Quote';
 import Layout from '../components/Layout';
-import {withAuthentication} from '../authentication';
-import {NextPageContext} from 'next';
+import { withAuthentication } from '../authentication';
+import { NextPageContext } from 'next';
 
 const Grid = styled.div`
   display: flex;
@@ -21,10 +21,15 @@ const Item = styled.div`
 `;
 
 interface Props {
-    quotes: Array<object>;
+    quotes: Array<{
+        id: string,
+        author: string,
+        quote: string,
+        avatar: string
+    }>;
 }
 
-function Page({quotes}: Props) {
+function Page({ quotes }: Props) {
     return (
         <Layout>
             <Grid>
@@ -38,7 +43,7 @@ function Page({quotes}: Props) {
     );
 }
 
-Page.getInitialProps = async ({req}: NextPageContext) => {
+Page.getInitialProps = async ({ req }: NextPageContext) => {
     const baseUrl = req ? `http://${req.headers.host}` : '';
     const response = await fetch(`${baseUrl}/api/quotes`);
     const json = await response.json();
