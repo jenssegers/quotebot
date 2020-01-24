@@ -12,6 +12,10 @@ export default morgan('common')(async (req, res) => {
     quote = await QuotesRepository.random();
   }
 
+  if (!quote) {
+    return res.status(404);
+  }
+
   res.status(200).json({
     response_type: 'in_channel',
     attachments: [
