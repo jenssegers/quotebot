@@ -19,7 +19,7 @@ Through 'feature and functionality', add 'Slash Commands' and 'Permissions'. For
 - `/quote` with a request url of `https://your-domain.com/api/quotes/add`
 - `/randomquote` with a request url of `https://your-domain.com/api/quotes/random`
 
-In the permissions feature, copy the 'Bot User OAuth Access Token' value and use that as `SLACK_TOKEN` in your `.env`.
+In the permissions feature, add the `users.profile:read` permission. Then install the Slack app into your workspace and copy the 'Bot User OAuth Access Token' value and use that as `SLACK_TOKEN` in your `.env`.
 
 ### Run a MySQL server
 
