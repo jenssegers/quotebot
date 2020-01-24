@@ -36,6 +36,7 @@ const Author = styled.div`
 `;
 
 const Quote = ({ avatar, quote, author, ...props }) => {
+  quote = quote.replace(/<@[\w]+\|(.+?)>/gi, (match, user) => `**@${user}**`);
   const html = Emoji.emojify(new MarkdownIt().render(quote));
 
   return (
