@@ -4,7 +4,7 @@ import QuotesRepository from '../../../domain/quotes/QuotesRepository';
 import morgan from 'micro-morgan';
 
 export default morgan('common')(async (req, res) => {
-  const parsed = /^<@([\w]+)\|.+>\s*(.+)/gi.exec(req.body.text);
+  const parsed = /^<@([\w]+)\|.+?>\s*(.+)/gi.exec(req.body.text);
 
   if (!parsed) {
     res.status(200).json({
