@@ -9,11 +9,12 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix src"
+    "lint": "next lint --fix src"
   },
   "dependencies": {
     "@slack/web-api": "^6.4.0",
     "client-oauth2": "^4.3.3",
+    "eslint-config-prettier": "^8.3.0",
     "isomorphic-unfetch": "^3.1.0",
     "markdown-it": "^12.2.0",
     "micro-morgan": "^0.1.0",
@@ -29,10 +30,8 @@
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^1.13.2",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.25.1",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
     "prettier": "^2.4.0"
   }
 }
