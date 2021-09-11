@@ -1,5 +1,6 @@
 node_modules
 .env
+.env.local
 .next
 docker/production.yml
 Makefile

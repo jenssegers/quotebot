@@ -17,12 +17,14 @@ export const withAuthentication = WrappedComponent => {
       return null;
     }
 
+    console.warn(process.env);
+
     const google = new ClientOAuth2({
-      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
       authorizationUri: 'https://accounts.google.com/o/oauth2/v2/auth',
       scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
       query: {
-        hd: process.env.GOOGLE_DOMAIN,
+        hd: process.env.NEXT_PUBLIC_GOOGLE_DOMAIN,
       },
     });
 

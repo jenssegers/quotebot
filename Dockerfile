@@ -1,4 +1,4 @@
-FROM node:12-slim AS build
+FROM node:14-slim AS build
 
 WORKDIR /app
 COPY package*.json /app/
@@ -11,7 +11,7 @@ RUN npm run build
 
 # -------------------------------------------------------------------
 
-FROM node:12-alpine
+FROM node:14-alpine
 
 WORKDIR /app
 COPY --from=build /app /app
