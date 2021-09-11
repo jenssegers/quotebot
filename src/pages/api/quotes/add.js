@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import { WebClient } from '@slack/web-api';
 import QuotesRepository from '../../../domain/quotes/QuotesRepository';
 import morgan from 'micro-morgan';
