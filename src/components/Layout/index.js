@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-const Layout = ({ children, ...props }) => (
-	<div {...props}>
+const Layout = ({ ...props }) => (
+	<>
 		<Head>
 			<title>Quotebot</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,8 +37,15 @@ const Layout = ({ children, ...props }) => (
 			`}
 		</style>
 
-		{children}
-	</div>
+		{props.children}
+
+		<script
+			async
+			defer
+			data-website-id="d4bf37a0-d54d-453a-b2f8-6538d9006b7f"
+			src="https://umami.jenssegers.com/umami.js"
+		></script>
+	</>
 );
 
 export default Layout;
