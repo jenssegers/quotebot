@@ -10,7 +10,6 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
-  // Redirect to login page if not authenticated
   if (!session) {
     return {
       redirect: {
@@ -20,9 +19,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  // Fetch all quotes
-  const prisma = new PrismaClient();
-  const quotes = await prisma.quote.findMany({
+  const quotes = await new PrismaClient().quote.findMany({
+    orderBy: {
+      added_at: "desc",
+    },
     include: {
       author: true,
     },
@@ -51,18 +51,18 @@ export default function Home({
     <main className="bg-gray-100 min-h-screen w-screen p-6">
       <ul
         role="list"
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+        className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3"
       >
         {quotes.map((quote) => (
           <li
             key={quote.id}
             className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow"
           >
-            <div className="flex w-full items-center justify-between space-x-6 p-6">
-              <div className="flex-1 truncate">
+            <div className="flex w-full h-full items-center justify-between space-x-3 p-6">
+              <div className="flex-1">
                 <div className="flex items-center space-x-3">
                   <h3
-                    className="truncate text-base font-medium text-gray-900"
+                    className="text-base font-medium text-gray-900"
                     dangerouslySetInnerHTML={{
                       __html: Emoji.emojify(
                         new MarkdownIt().render(quote.quote as string)
@@ -70,7 +70,7 @@ export default function Home({
                     }}
                   ></h3>
                 </div>
-                <p className="mt-1 truncate text-sm text-gray-500">
+                <p className="mt-2 text-sm text-gray-500">
                   {quote.author.name}
                 </p>
               </div>
