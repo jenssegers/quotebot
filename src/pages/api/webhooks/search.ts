@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseType = {
@@ -24,7 +24,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const prisma = new PrismaClient();
   const quotes = await prisma.quote.findMany({
     where: {
       quote: {

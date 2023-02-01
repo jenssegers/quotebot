@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { WebClient } from "@slack/web-api";
-import { Profile } from "@slack/web-api/dist/response/UsersProfileGetResponse";
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuid } from "uuid";
 
@@ -41,7 +40,6 @@ export default async function handler(
   const [_full, userId, text] = parsed;
   const slack = new WebClient(process.env.SLACK_TOKEN);
   const profile = (await slack.users.profile.get({ user: userId })).profile;
-  const prisma = new PrismaClient();
 
   if (!profile) {
     res.status(500);

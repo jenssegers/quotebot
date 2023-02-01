@@ -6,6 +6,7 @@ import Emoji from "node-emoji";
 import MarkdownIt from "markdown-it";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { prisma } from "@/lib/prisma";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
@@ -19,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const quotes = await new PrismaClient().quote.findMany({
+  const quotes = await prisma.quote.findMany({
     orderBy: {
       added_at: "desc",
     },

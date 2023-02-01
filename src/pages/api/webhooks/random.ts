@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseType = {
@@ -25,7 +25,6 @@ export default async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const parsed = /^<@([\w]+)\|.+?>.*/gi.exec(req.body.text);
-  const prisma = new PrismaClient();
 
   const quotes = parsed
     ? await prisma.quote.findMany({
