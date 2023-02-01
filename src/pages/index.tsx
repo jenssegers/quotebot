@@ -2,6 +2,8 @@ import { Author, PrismaClient, Quote } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
+import Emoji from "node-emoji";
+import MarkdownIt from "markdown-it";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
@@ -30,6 +32,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       quotes: quotes.map((quote) => ({
         ...quote,
+        quote: quote.quote.replace(
+          /<@[\w]+\|(.+?)>/gi,
+          (_match, user) => `**@${user}**`
+        ),
         added_at: quote.added_at.toISOString(),
       })),
     },
@@ -55,9 +61,14 @@ export default function Home({
             <div className="flex w-full items-center justify-between space-x-6 p-6">
               <div className="flex-1 truncate">
                 <div className="flex items-center space-x-3">
-                  <h3 className="truncate text-base font-medium text-gray-900">
-                    {quote.quote}
-                  </h3>
+                  <h3
+                    className="truncate text-base font-medium text-gray-900"
+                    dangerouslySetInnerHTML={{
+                      __html: Emoji.emojify(
+                        new MarkdownIt().render(quote.quote as string)
+                      ),
+                    }}
+                  ></h3>
                 </div>
                 <p className="mt-1 truncate text-sm text-gray-500">
                   {quote.author.name}
