@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { WebClient } from "@slack/web-api";
+import { Profile } from "@slack/web-api/dist/response/UsersProfileGetResponse";
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuid } from "uuid";
 
@@ -39,22 +40,26 @@ export default async function handler(
 
   const [_full, userId, text] = parsed;
   const slack = new WebClient(process.env.SLACK_TOKEN);
-  const profile = await slack.users.info({ user: userId });
+  const profile = (await slack.users.profile.get({ user: userId })).profile;
   const prisma = new PrismaClient();
+
+  if (!profile) {
+    res.status(500);
+    return;
+  }
 
   const author = await prisma.author.upsert({
     where: {
       id: userId,
     },
     update: {
-      name: profile.user?.real_name,
-      avatar: profile.user?.profile?.image_192,
+      name: profile.real_name,
+      avatar: profile.image_512 || profile.image_original,
     },
     create: {
       id: userId,
-      name: profile.user?.real_name as string,
-      avatar: (profile.user?.profile?.image_512 ||
-        profile.user?.profile?.image_original) as string,
+      name: profile.real_name as string,
+      avatar: (profile.image_512 || profile.image_original) as string,
     },
   });
 
