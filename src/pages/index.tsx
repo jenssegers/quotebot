@@ -63,7 +63,7 @@ export default function Home({
               <div className="flex-1">
                 <div className="flex items-center space-x-3">
                   <h3
-                    className="text-base font-medium text-gray-900"
+                    className="text-base text-gray-900"
                     dangerouslySetInnerHTML={{
                       __html: Emoji.emojify(
                         new MarkdownIt().render(quote.quote as string)
