@@ -30,7 +30,9 @@ export default async function handler(
   const quotes = parsed
     ? await prisma.quote.findMany({
         where: {
-          author_id: parsed[1],
+          author_id: {
+            equals: parsed[1]
+          },
         },
         include: {
           author: true,
