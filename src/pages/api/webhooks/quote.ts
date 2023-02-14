@@ -46,7 +46,7 @@ export default async function handler(
     return;
   }
 
-  const author = await prisma.author.upsert({
+  prisma.author.upsert({
     where: {
       id: userId,
     },
@@ -65,7 +65,7 @@ export default async function handler(
     data: {
       id: uuid(),
       channel: req.body.channel_name,
-      author_id: author.id,
+      author_id: userId,
       quote: text,
     },
   });
@@ -76,10 +76,10 @@ export default async function handler(
       {
         fallback:
           `> ${quote.quote} \n` +
-          `> * ${author.name} * \n` +
+          `> * ${profile.real_name} * \n` +
           `https://${req.headers.host}`,
-        author_name: author.name,
-        thumb_url: author.avatar,
+        author_name: profile.real_name as string,
+        thumb_url: (profile.image_512 || profile.image_original) as string,
         text: quote.quote,
         actions: [
           {
