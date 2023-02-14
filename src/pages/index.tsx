@@ -1,12 +1,12 @@
-import { Author, PrismaClient, Quote } from "@prisma/client";
+import { Author, Quote } from "@prisma/client";
+import MarkdownIt from "markdown-it";
 import { GetServerSideProps } from "next";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import Emoji from "node-emoji";
-import MarkdownIt from "markdown-it";
 
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
