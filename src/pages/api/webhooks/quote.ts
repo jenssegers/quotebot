@@ -46,7 +46,7 @@ export default async function handler(
     return;
   }
 
-  prisma.author.upsert({
+  await prisma.author.upsert({
     where: {
       id: userId,
     },
